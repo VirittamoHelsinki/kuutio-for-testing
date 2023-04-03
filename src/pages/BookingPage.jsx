@@ -25,6 +25,10 @@ const BookingPage = () => {
 
   const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
 
+  useEffect(() => {
+    setNewBooking(false);
+  }, [selectedDate]);
+
   return (
     <div className="bookingpage-main">
       <div className="bookingpage-content">
