@@ -107,9 +107,13 @@
 
         &.selected {
           p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 43px;
+            height: 43px;
             background: #e8f3fc;
             border-radius: 50%;
-            padding: 12.5px;
           }
         }
 

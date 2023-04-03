@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Calendar from "../components/Calendar";
+import TimeSelect from "../components/TimeSelect";
 import "../styles/BookingPage.scss";
 
 let times = ["07:30"];
@@ -36,10 +37,14 @@ const BookingPage = () => {
               </div>
               <div className="times-row">
                 {times.map((time, index) => (
-                  <div 
-                    className="time-box" 
+                  <div
+                    className="time-box"
                     key={index}
-                    onClick={() => setNewBooking(true)}>
+                    onClick={() => {
+                      setStartTime(time);
+                      setNewBooking(true);
+                    }}
+                  >
                     {time}
                   </div>
                 ))}
@@ -54,6 +59,18 @@ const BookingPage = () => {
                 <div className="booking-headline">
                   <label>{date.toLocaleDateString("fi-FI", options)}</label>
                 </div>
+                {newBooking && (
+                  <div className="new-booking-content">
+                    <div className="topic-content">
+                      <input placeHolder="aihe" />
+                    </div>
+                    <div className="time-select-content">
+                      <TimeSelect setTime={setStartTime} startTime={startTime} />
+                      <p>-</p>
+                      <TimeSelect setTime={setStartTime} startTime={startTime} />
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

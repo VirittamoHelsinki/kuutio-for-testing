@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/TimeSelect.scss";
 
 const TimeSelect = ({ setTime, startTime }) => {
   const start_split = startTime.split(":");
