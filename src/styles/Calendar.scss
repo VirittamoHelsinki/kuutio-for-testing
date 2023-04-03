@@ -93,13 +93,13 @@
         height: 54px;
         background: white;
         user-select: none;
-        font-family: "Inter", sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
         line-height: 20px;
         text-align: center;
         color: #1d1c2b;
+        cursor: pointer;
 
         &.highlight {
           background: white;
