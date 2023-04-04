@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase/firebase';
+import { Link } from "react-router-dom";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 import Calendar from "../components/Calendar";
 import "../styles/BookingPage.scss";
 
-let times = [{time: "07:30", data: null}];
+const times = [{ time: "07:30", data: null }];
 
 for (let i = 8; i < 18; i++) {
   if (i < 10) {
-    times.push({time: "0" + i + ":00", data: null});
-    times.push({time: "0" + i + ":30", data: null});
+    times.push({ time: "0" + i + ":00", data: null });
+    times.push({ time: "0" + i + ":30", data: null });
   } else {
-    times.push({time: i + ":00", data: null});
-    times.push({time: i + ":30", data: null});
+    times.push({ time: i + ":00", data: null });
+    times.push({ time: i + ":30", data: null });
   }
 }
 
@@ -20,46 +21,55 @@ const BookingPage = () => {
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [newBooking, setNewBooking] = useState(false);
-  const [topic, setTopic] = useState('');
+  const [topic, setTopic] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
   const [bookings, setBookings] = useState(times);
+  const [showConfirmWindow, setShowConfirmWindow] = useState(false);
+  const [showThanksWindow, setShowThanksWindow] = useState(false);
 
   const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
 
   const onBookingClick = async () => {
     const bookings_copy = [...bookings];
     const index = bookings_copy.findIndex((booking) => booking.time === selectedTime);
-    bookings_copy[index].data = {topic: topic, name: "Essi Esimerkki"}
+    bookings_copy[index].data = { topic: topic, name: "Essi Esimerkki" };
     try {
-      await setDoc(doc(db, 'bookings', selectedDate.getFullYear().toString(), selectedDate.getMonth().toString(), selectedDate.getDate().toString()), {
-        ...bookings_copy
+      await setDoc(doc(db, "bookings", selectedDate.getFullYear().toString(), selectedDate.getMonth().toString(), selectedDate.getDate().toString()), {
+        ...bookings_copy,
       });
-      setBookings(bookings_copy)
+      setBookings(bookings_copy);
+      setTopic("");
+      setNewBooking(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   const getBookings = async () => {
     try {
-      const docSnap = await getDoc(doc(db, 'bookings', selectedDate.getFullYear().toString(), selectedDate.getMonth().toString(), selectedDate.getDate().toString()));
+      const docSnap = await getDoc(
+        doc(db, "bookings", selectedDate.getFullYear().toString(), selectedDate.getMonth().toString(), selectedDate.getDate().toString())
+      );
       if (docSnap.exists()) {
-        const documents = []
+        const documents = [];
         let i = 0;
         while (docSnap.data()[i]) {
           documents.push(docSnap.data()[i]);
           i++;
         }
-        setBookings(documents)
+        setBookings(documents);
+      } else {
+        setBookings(times);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
+    setBookings(times);
     setNewBooking(false);
-    setTopic('');
+    setTopic("");
     if (selectedDate) {
       getBookings();
     }
@@ -80,7 +90,7 @@ const BookingPage = () => {
                   const disabled = booking.data === null ? false : true;
                   return (
                     <div
-                      className={`time-box ${disabled ? ' disabled' : ''}`}
+                      className={`time-box ${disabled ? " disabled" : ""}`}
                       key={index}
                       onClick={() => {
                         if (!disabled) {
@@ -91,8 +101,8 @@ const BookingPage = () => {
                     >
                       {booking.time}
                     </div>
-                  )
-                  })}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -107,37 +117,123 @@ const BookingPage = () => {
                 {newBooking ? (
                   <div className="new-booking-content">
                     <div className="topic-content">
-                      <input 
-                        placeholder="aihe"
-                        value={topic}
-                        onChange={(e) => setTopic(e.target.value)} 
-                      />
+                      <input placeholder="aihe" value={topic} onChange={(e) => setTopic(e.target.value)} />
                     </div>
                     <div className="selected-time">
-                      {selectedTime}
+                      <label>Olet varaamassa klo</label>
+                      <label>{selectedTime}</label>
                     </div>
                   </div>
-                ): (
-                  <div>
-                  {bookings.filter((booking) => booking.data !== null).map((b, index) => (
-                    <div key={index}>{b.time}</div>
-                  ))}
+                ) : (
+                  <div className="booking-column">
+                    {bookings
+                      .filter((b) => b.data !== null)
+                      .map((booking, index) => (
+                        <div className="booking-details" key={index}>
+                          <div className="time-label">
+                            <label>{booking.time}</label>
+                          </div>
+                          <div className="detail-content">
+                            <div className="name-label">
+                              <label>{booking.data.name}</label>
+                            </div>
+                            <div className="topic-label">
+                              <label>{booking.data.topic}</label>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 )}
               </div>
             )}
           </div>
           <div className="booking-button-content">
-            {topic !== '' ? 
-            (<button 
-              className="booking-button" 
-              onClick={() => onBookingClick()}
-              >Varaa
-            </button>) : 
-            (<button className="booking-button disabled">Varaa</button>)}
+            {topic !== "" ? (
+              <button className="booking-button" onClick={() => setShowConfirmWindow(true)}>
+                Varaa
+              </button>
+            ) : (
+              <button className="booking-button disabled">Varaa</button>
+            )}
           </div>
         </div>
       </div>
+      {showConfirmWindow && (
+        <div className="fullscreen-modal">
+          <div className="modal-detail-content">
+            <div className="detail-row">
+              <div className="detail-subject">
+                <label>Aihe:</label>
+              </div>
+              <div className="detail-value">
+                <label>{topic}</label>
+              </div>
+            </div>
+            <div className="detail-row">
+              <div className="detail-subject">
+                <label>Päivä:</label>
+              </div>
+              <div className="detail-value">
+                <label>{selectedDate.toLocaleDateString("fi-FI")}</label>
+              </div>
+            </div>
+            <div className="detail-row">
+              <div className="detail-subject">
+                <label>Aika:</label>
+              </div>
+              <div className="detail-value">
+                <label>{selectedTime}</label>
+              </div>
+            </div>
+            <div className="detail-row">
+              <div className="detail-subject">
+                <label>Nimi:</label>
+              </div>
+              <div className="detail-value">
+                <label>Essi Esimerkki</label>
+              </div>
+            </div>
+          </div>
+          <div className="modal-buttons">
+            <button
+              className="black-button"
+              onClick={() => {
+                onBookingClick();
+                setShowConfirmWindow(false);
+                setShowThanksWindow(true);
+              }}
+            >
+              Vahvista
+            </button>
+            <button className="nocolor-button" onClick={() => setShowConfirmWindow(false)}>
+              Peruuta
+            </button>
+          </div>
+        </div>
+      )}
+      {showThanksWindow && (
+        <div className="fullscreen-modal">
+          <div className="modal-thanks-content">
+            <div className="thanks-label">
+              <label>Kiitos!</label>
+            </div>
+            <div className="description-label">
+              <label>Huone on varattu sinulle!</label>
+            </div>
+          </div>
+          <div className="modal-buttons">
+            <button className="black-button" onClick={() => setShowThanksWindow(false)}>
+              Tee uusi varaus
+            </button>
+            <Link to="/">
+              <button className="nocolor-button" onClick={() => setShowConfirmWindow(false)}>
+                Takaisin etusivulle
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
