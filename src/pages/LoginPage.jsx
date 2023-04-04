@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updatePassword, getAuth, signOut } from "firebase/auth";
-import { db, auth } from "../firebase/firebase";
+import { UserAuth } from '../context/AuthContext';
 import "../styles/LoginPage.scss";
 
 const LoginPage = () => {
@@ -8,6 +7,33 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [register, setRegister] = useState(false);
+
+  const { createUser, signIn } = UserAuth();
+
+  const onSignup = async (e) => {
+    e.preventDefault();
+    if ((email.includes('@hel.fi') || email.includes('@edu.hel.fi')) && (password.length >= 8) && (password === confirmPassword)) {
+      try {
+        await createUser(email, password);
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+      } catch (e) {
+        console.log(e.message)
+      }
+    }
+  };
+
+  const onSignin = async (e) => {
+    e.preventDefault();
+    try {
+      await signIn(email, password);
+      setEmail('');
+      setPassword('');
+    } catch (e) {
+      console.log(e.message)
+    }
+  };
 
   return (
     <div className="loginpage-main">
@@ -30,11 +56,16 @@ const LoginPage = () => {
               <input type="password" placeholder="Salasana uudestaan" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
             <div className="login-button">
-              <button>Rekisteröidy</button>
+              <button onClick={onSignup}>Rekisteröidy</button>
             </div>
             <div className="register-label">
               <label>Löytyykö tili?</label>
-              <label className="link-label" onClick={() => setRegister(false)}>
+              <label className="link-label" onClick={() => {
+                setEmail('')
+                setPassword('')
+                setConfirmPassword('')
+                setRegister(false)
+              }}>
                 Kirjaudu sisään
               </label>
             </div>
@@ -53,11 +84,15 @@ const LoginPage = () => {
               <input type="password" placeholder="Salasana" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className="login-button">
-              <button>Kirjaudu</button>
+              <button onClick={onSignin}>Kirjaudu</button>
             </div>
             <div className="register-label">
               <label>Eikö ole tiliä?</label>
-              <label className="link-label" onClick={() => setRegister(true)}>
+              <label className="link-label" onClick={() => {
+                setEmail('')
+                setPassword('')
+                setRegister(true)
+              }}>
                 Rekisteröidy nyt
               </label>
             </div>

@@ -1,21 +1,26 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthContextProvider } from './context/AuthContext';
 import Header from "./components/Header";
 import FrontPage from "./pages/FrontPage";
 import LoginPage from "./pages/LoginPage";
 import BookingPage from "./pages/BookingPage";
 import ManageBookingPage from "./pages/ManageBookingPage";
+import UserRoute from "./components/UserRoute";
+import GuestRoute from "./components/GuestRoute";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<FrontPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="booking" element={<BookingPage />} />
-        <Route path="manage-booking" element={<ManageBookingPage />} />
-      </Routes>
+      <AuthContextProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<UserRoute><FrontPage /></UserRoute>} />
+          <Route path="login" element={<GuestRoute><LoginPage /></GuestRoute>} />
+          <Route path="booking" element={<UserRoute><BookingPage /></UserRoute>} />
+          <Route path="manage-booking" element={<UserRoute><ManageBookingPage /></UserRoute>} />
+        </Routes>
+      </AuthContextProvider>
     </BrowserRouter>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import { UserAuth } from '../context/AuthContext';
 import Calendar from "../components/Calendar";
 import "../styles/BookingPage.scss";
 
@@ -27,12 +28,14 @@ const BookingPage = () => {
   const [showConfirmWindow, setShowConfirmWindow] = useState(false);
   const [showThanksWindow, setShowThanksWindow] = useState(false);
 
+  const { user } = UserAuth();
+
   const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
 
-  const onBookingClick = async () => {
+  const createBooking = async () => {
     const bookings_copy = [...bookings];
     const index = bookings_copy.findIndex((booking) => booking.time === selectedTime);
-    bookings_copy[index].data = { topic: topic, name: "Essi Esimerkki" };
+    bookings_copy[index].data = { topic: topic, email: user.email, id: user.id };
     try {
       await setDoc(doc(db, "bookings", selectedDate.getFullYear().toString(), selectedDate.getMonth().toString(), selectedDate.getDate().toString()), {
         ...bookings_copy,
@@ -45,7 +48,7 @@ const BookingPage = () => {
     }
   };
 
-  const getBookings = async () => {
+  const fetchBookings = async () => {
     try {
       const docSnap = await getDoc(
         doc(db, "bookings", selectedDate.getFullYear().toString(), selectedDate.getMonth().toString(), selectedDate.getDate().toString())
@@ -71,7 +74,7 @@ const BookingPage = () => {
     setNewBooking(false);
     setTopic("");
     if (selectedDate) {
-      getBookings();
+      fetchBookings();
     }
   }, [selectedDate]);
 
@@ -135,7 +138,7 @@ const BookingPage = () => {
                           </div>
                           <div className="detail-content">
                             <div className="name-label">
-                              <label>{booking.data.name}</label>
+                              <label>{booking.data.email}</label>
                             </div>
                             <div className="topic-label">
                               <label>{booking.data.topic}</label>
@@ -191,7 +194,7 @@ const BookingPage = () => {
                 <label>Nimi:</label>
               </div>
               <div className="detail-value">
-                <label>Essi Esimerkki</label>
+                <label>{user.email}</label>
               </div>
             </div>
           </div>
@@ -199,7 +202,7 @@ const BookingPage = () => {
             <button
               className="black-button"
               onClick={() => {
-                onBookingClick();
+                createBooking();
                 setShowConfirmWindow(false);
                 setShowThanksWindow(true);
               }}
