@@ -71,7 +71,7 @@ const ManagePage = () => {
       <div className="managepage-content">
         <div className="upcoming-content">
           <div className="upcoming-title">
-            <label>Tulevat ajanvaraukset</label>
+            <label>Ajanvarauksesi</label>
           </div>
           <div className="upcoming-bookings">
             {bookings.map((booking, index) => (
