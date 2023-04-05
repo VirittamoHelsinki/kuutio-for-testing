@@ -244,7 +244,7 @@ const BookingPage = () => {
               Tee uusi varaus
             </button>
             <Link to="/">
-              <button className="nocolor-button" onClick={() => setShowConfirmWindow(false)}>
+              <button className="nocolor-button" onClick={() => setShowThanksWindow(false)}>
                 Takaisin etusivulle
               </button>
             </Link>

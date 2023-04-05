@@ -21,7 +21,9 @@ const FrontPage = () => {
         <Link to="booking">
           <button className="frontpage-button">Varaa uusi aika</button>
         </Link>
-        <button className="frontpage-button">Hallinnoi ajanvarauksia</button>
+        <Link to="manage-booking">
+          <button className="frontpage-button">Hallinnoi ajanvarauksia</button>
+        </Link>
         <button className="frontpage-button" onClick={() => onLogout()}>Kirjaudu ulos</button>
       </div>
     </div>

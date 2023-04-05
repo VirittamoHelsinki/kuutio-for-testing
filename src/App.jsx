@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import FrontPage from "./pages/FrontPage";
 import LoginPage from "./pages/LoginPage";
 import BookingPage from "./pages/BookingPage";
-import ManageBookingPage from "./pages/ManageBookingPage";
+import ManagePage from "./pages/ManagePage";
 import UserRoute from "./components/UserRoute";
 import GuestRoute from "./components/GuestRoute";
 
@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<UserRoute><FrontPage /></UserRoute>} />
           <Route path="login" element={<GuestRoute><LoginPage /></GuestRoute>} />
           <Route path="booking" element={<UserRoute><BookingPage /></UserRoute>} />
-          <Route path="manage-booking" element={<UserRoute><ManageBookingPage /></UserRoute>} />
+          <Route path="manage-booking" element={<UserRoute><ManagePage /></UserRoute>} />
         </Routes>
       </AuthContextProvider>
     </BrowserRouter>
