@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, collection } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import { UserAuth } from '../context/AuthContext';
+import { UserAuth } from "../context/AuthContext";
 import Calendar from "../components/Calendar";
 import "../styles/BookingPage.scss";
 
-const times = [{ time: "07:30", data: null }];
-
-for (let i = 8; i < 18; i++) {
-  if (i < 10) {
-    times.push({ time: "0" + i + ":00", data: null });
-    times.push({ time: "0" + i + ":30", data: null });
-  } else {
-    times.push({ time: i + ":00", data: null });
-    times.push({ time: i + ":30", data: null });
+const initTimes = () => {
+  let times = [{ time: "07:30", data: null }];
+  for (let i = 8; i < 18; i++) {
+    if (i < 10) {
+      times.push({ time: "0" + i + ":00", data: null });
+      times.push({ time: "0" + i + ":30", data: null });
+    } else {
+      times.push({ time: i + ":00", data: null });
+      times.push({ time: i + ":30", data: null });
+    }
   }
-}
+  return times;
+};
 
 const BookingPage = () => {
   const [date, setDate] = useState(new Date());
@@ -24,7 +26,7 @@ const BookingPage = () => {
   const [newBooking, setNewBooking] = useState(false);
   const [topic, setTopic] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
-  const [bookings, setBookings] = useState(times);
+  const [bookings, setBookings] = useState(initTimes());
   const [showConfirmWindow, setShowConfirmWindow] = useState(false);
   const [showThanksWindow, setShowThanksWindow] = useState(false);
 
@@ -35,10 +37,22 @@ const BookingPage = () => {
   const createBooking = async () => {
     const bookings_copy = [...bookings];
     const index = bookings_copy.findIndex((booking) => booking.time === selectedTime);
-    bookings_copy[index].data = { topic: topic, email: user.email, id: user.id };
+    bookings_copy[index].data = { topic: topic, email: user.email, uid: user.uid };
     try {
-      await setDoc(doc(db, "bookings", selectedDate.getFullYear().toString(), selectedDate.getMonth().toString(), selectedDate.getDate().toString()), {
+      const year = selectedDate.getFullYear().toString();
+      const month = selectedDate.getMonth().toString();
+      const day = selectedDate.getDate().toString();
+      await setDoc(doc(db, "bookings", year, month, day), {
         ...bookings_copy,
+      });
+      const dataRef = doc(collection(db, "users", user.uid, "bookings"));
+      await setDoc(dataRef, {
+        year: year,
+        month: month,
+        day: day,
+        time: selectedTime,
+        weekday: selectedDate.getDay().toString(),
+        topic: topic,
       });
       setBookings(bookings_copy);
       setTopic("");
@@ -62,7 +76,7 @@ const BookingPage = () => {
         }
         setBookings(documents);
       } else {
-        setBookings(times);
+        setBookings(initTimes());
       }
     } catch (error) {
       console.log(error);
@@ -70,7 +84,7 @@ const BookingPage = () => {
   };
 
   useEffect(() => {
-    setBookings(times);
+    setBookings(initTimes());
     setNewBooking(false);
     setTopic("");
     if (selectedDate) {
