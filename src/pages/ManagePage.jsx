@@ -5,20 +5,20 @@ import { db } from "../firebase/firebase";
 import { UserAuth } from "../context/AuthContext";
 import "../styles/ManagePage.scss";
 
-const weekDays = ['Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'];
+const weekDays = ["Sunnuntai", "Maanantai", "Tiistai", "Keskiviikko", "Torstai", "Perjantai", "Lauantai"];
 
 const init = {
-  year: '',
-  month: '0',
-  day: '',
-  weekday: '',
-  time: '',
-  topic: ''
-}
+  year: "",
+  month: "0",
+  day: "",
+  weekday: "",
+  time: "",
+  topic: "",
+};
 
 const ManagePage = () => {
   const [bookings, setBookings] = useState([]);
-  const [selected, setSelected] = useState(init)
+  const [selected, setSelected] = useState(init);
   const [showSelected, setShowSelected] = useState(false);
   const [showConfirmWindow, setShowConfirmWindow] = useState(false);
   const [showReturnWindow, setShowReturnWindow] = useState(false);
@@ -56,7 +56,7 @@ const ManagePage = () => {
       await setDoc(doc(db, "bookings", selected.year, selected.month, selected.day), {
         ...documents,
       });
-      setBookings(bookings.filter((booking) => booking.id !== selected.id))
+      setBookings(bookings.filter((booking) => booking.id !== selected.id));
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +76,7 @@ const ManagePage = () => {
           <div className="upcoming-bookings">
             {bookings.map((booking, index) => (
               <div
-                className="booking-content"
+                className={`booking-content ${booking.id === selected.id ? " selected" : ""}`}
                 key={index}
                 onClick={() => {
                   setSelected(booking);
@@ -100,49 +100,46 @@ const ManagePage = () => {
           </div>
         </div>
         <div className="selected-main">
-        {showSelected && (
-          <div className="selected-content">
-            <div className="selected-details">
-              <div className="selected-title">
-                <label>Olet varannut:</label>
+          {showSelected && (
+            <div className="selected-content">
+              <div className="selected-details">
+                <div className="selected-title">
+                  <label>Olet varannut:</label>
+                </div>
+                <div className="text-row">
+                  <div className="text-subject">
+                    <label>Päivä:</label>
+                  </div>
+                  <div className="text-value">
+                    <label>
+                      {selected.day}/{parseInt(selected.month) + 1}/{selected.year}
+                    </label>
+                  </div>
+                </div>
+                <div className="text-row">
+                  <div className="text-subject">
+                    <label>Aihe:</label>
+                  </div>
+                  <div className="text-value">
+                    <label>{selected.topic}</label>
+                  </div>
+                </div>
+                <div className="text-row">
+                  <div className="text-subject">
+                    <label>Aika:</label>
+                  </div>
+                  <div className="text-value">
+                    <label>{selected.time}</label>
+                  </div>
+                </div>
               </div>
-              <div className="text-row">
-                <div className="text-subject">
-                  <label>Päivä:</label>
-                </div>
-                <div className="text-value">
-                  <label>
-                    {selected.day}/{parseInt(selected.month) + 1}/{selected.year}
-                  </label>
-                </div>
-              </div>
-              <div className="text-row">
-                <div className="text-subject">
-                  <label>Aihe:</label>
-                </div>
-                <div className="text-value">
-                  <label>{selected.topic}</label>
-                </div>
-              </div>
-              <div className="text-row">
-                <div className="text-subject">
-                  <label>Aika:</label>
-                </div>
-                <div className="text-value">
-                  <label>{selected.time}</label>
-                </div>
+              <div className="remove-button-content">
+                <button className="remove-button" onClick={() => setShowConfirmWindow(true)}>
+                  Poista varaus
+                </button>
               </div>
             </div>
-            <div className="remove-button-content">
-              <button 
-                className="remove-button" 
-                onClick={() => setShowConfirmWindow(true)}
-              >
-                Poista varaus
-              </button>
-            </div>
-          </div>       
-        )}
+          )}
         </div>
       </div>
       {showConfirmWindow && (
@@ -155,7 +152,7 @@ const ManagePage = () => {
               className="black-button"
               onClick={() => {
                 deleteBooking();
-                setShowSelected(false)
+                setShowSelected(false);
                 setShowConfirmWindow(false);
                 setShowReturnWindow(true);
               }}

@@ -16,7 +16,9 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
+      background: #f5f5f5;
       width: 490px;
+      height: 91vh;
       gap: 40px;
 
       .upcoming-title {
@@ -55,7 +57,12 @@
           height: 84px;
           gap: 10px;
           padding: 22px 35px;
+          border: none;
           cursor: pointer;
+
+          &.selected {
+            border: 3px solid #000000;
+          }
 
           .date-title-content {
             display: flex;
@@ -127,7 +134,7 @@
         justify-content: space-between;
         width: 70%;
         padding: 35px;
-        background: #E8F3FC;
+        background: #e8f3fc;
 
         .selected-details {
           display: flex;
@@ -228,7 +235,7 @@
     width: max-content;
 
     label {
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
       font-style: normal;
       font-weight: 300;
       font-size: 36px;
