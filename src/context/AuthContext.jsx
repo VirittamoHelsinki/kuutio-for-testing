@@ -12,7 +12,7 @@ export const AuthContextProvider = ({ children }) => {
       const userdata = await createUserWithEmailAndPassword(auth, email, password);
       signOut(auth);
       await sendEmailVerification(userdata.user);
-      window.alert("Vahvistuspyyntö lähetetty antamaasi sähköpostiosoitteeseen.");
+      window.alert("Vahvistuspyyntö lähetetty antamaasi sähköpostiosoitteeseen");
     } catch (error) {
       window.alert(error);
     }
