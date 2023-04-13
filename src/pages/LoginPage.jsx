@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UserAuth } from '../context/AuthContext';
+import { UserAuth } from "../context/AuthContext";
 import "../styles/LoginPage.scss";
 
 const LoginPage = () => {
@@ -10,29 +10,21 @@ const LoginPage = () => {
 
   const { createUser, signIn } = UserAuth();
 
-  const onSignup = async (e) => {
+  const onSignup = (e) => {
     e.preventDefault();
-    if ((email.includes('@hel.fi') || email.includes('@edu.hel.fi')) && (password.length >= 8) && (password === confirmPassword)) {
-      try {
-        await createUser(email, password);
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-      } catch (e) {
-        console.log(e.message)
-      }
+    if ((email.includes("@hel.fi") || email.includes("@edu.hel.fi")) && password.length >= 8 && password === confirmPassword) {
+      createUser(email, password);
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
     }
   };
 
-  const onSignin = async (e) => {
+  const onSignin = (e) => {
     e.preventDefault();
-    try {
-      await signIn(email, password);
-      setEmail('');
-      setPassword('');
-    } catch (e) {
-      console.log(e.message)
-    }
+    signIn(email, password);
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -60,12 +52,15 @@ const LoginPage = () => {
             </div>
             <div className="register-label">
               <label>Löytyykö tili?</label>
-              <label className="link-label" onClick={() => {
-                setEmail('')
-                setPassword('')
-                setConfirmPassword('')
-                setRegister(false)
-              }}>
+              <label
+                className="link-label"
+                onClick={() => {
+                  setEmail("");
+                  setPassword("");
+                  setConfirmPassword("");
+                  setRegister(false);
+                }}
+              >
                 Kirjaudu sisään
               </label>
             </div>
@@ -88,11 +83,14 @@ const LoginPage = () => {
             </div>
             <div className="register-label">
               <label>Eikö ole tiliä?</label>
-              <label className="link-label" onClick={() => {
-                setEmail('')
-                setPassword('')
-                setRegister(true)
-              }}>
+              <label
+                className="link-label"
+                onClick={() => {
+                  setEmail("");
+                  setPassword("");
+                  setRegister(true);
+                }}
+              >
                 Rekisteröidy nyt
               </label>
             </div>
