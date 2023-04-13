@@ -21,13 +21,10 @@ export const AuthContextProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       const userdata = await signInWithEmailAndPassword(auth, email, password);
-      if (userdata.user.emailVerified) {
-        return userdata;
-      } else {
+      if (!userdata.user.emailVerified) {
         signOut(auth);
         window.alert("Ole hyvä ja käy vahvistamassa rekisteröityminen antamassasi sähköpostiosoitteessa");
       }
-      return userdata;
     } catch (error) {
       window.alert("Kirjautuminen ei onnistunut antamallasi sähköpostilla ja salasanalla: ", error);
     }
