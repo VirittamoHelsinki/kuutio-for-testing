@@ -58,7 +58,7 @@ const BookingPage = () => {
       setTopic("");
       setNewBooking(false);
     } catch (error) {
-      console.log(error);
+      window.alert("Ongelmia tietokantaan tallentamisessa:\n\n" + error);
     }
   };
 
@@ -79,7 +79,7 @@ const BookingPage = () => {
         setBookings(initTimes());
       }
     } catch (error) {
-      console.log(error);
+      window.alert("Ongelmia tietokannasta hakemisessa:\n\n" + error);
     }
   };
 
@@ -173,6 +173,9 @@ const BookingPage = () => {
             ) : (
               <button className="booking-button disabled">Varaa</button>
             )}
+            <Link to="/" className="homepage-button">
+              Palaa etusivulle
+            </Link>
           </div>
         </div>
       </div>

@@ -1,11 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  sendEmailVerification,
-  onAuthStateChanged, 
-  signOut
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
 const UserContext = createContext();
@@ -20,7 +14,7 @@ export const AuthContextProvider = ({ children }) => {
       await sendEmailVerification(userdata.user);
       window.alert("Vahvistuspyyntö lähetetty antamaasi sähköpostiosoitteeseen");
     } catch (error) {
-      window.alert(error);
+      window.alert("Käyttäjätilin luominen ei onnistunut:\n\n" + error);
     }
   };
 
@@ -32,7 +26,7 @@ export const AuthContextProvider = ({ children }) => {
         window.alert("Ole hyvä ja käy vahvistamassa rekisteröityminen antamassasi sähköpostiosoitteessa");
       }
     } catch (error) {
-      window.alert("Kirjautuminen ei onnistunut antamallasi sähköpostilla ja salasanalla: ", error);
+      window.alert("Kirjautuminen ei onnistunut antamallasi sähköpostilla ja salasanalla:\n\n" + error);
     }
   };
 

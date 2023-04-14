@@ -33,10 +33,10 @@ const LoginPage = () => {
         <label>Tervetuloa</label>
       </div>
       {register ? (
-        <div className="loginpage-content">
+        <div className="loginpage-content register">
           <div className="login-content">
             <div className="login-label">
-              <label>Rekisteröidy uudeksi käyttäjäksi</label>
+              <label>Rekisteröidy</label>
             </div>
             <div className="input-field">
               <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
