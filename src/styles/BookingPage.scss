@@ -152,8 +152,9 @@
             flex-direction: column;
             justify-content: flex-start;
             gap: 40px;
-            width: 100%;
-            padding: 0 50px;
+            width: 80%;
+            padding: 0 10%;
+            overflow-y: auto;
 
             .booking-details {
               display: flex;

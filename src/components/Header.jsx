@@ -9,10 +9,10 @@ const Header = () => {
 
   return (
     <div className="header-main">
-      <Link to="/" role="button">
-        <img src={logo} alt="logo" />
+      <Link to="/" className="header-label">
+        Virittämö
       </Link>
-      {user ? <h2>{user.email}</h2> : <h2>Ei käyttäjää</h2>}
+      {user ? <label className="header-label">{user.email}</label> : <label className="header-label">Ei käyttäjää</label>}
     </div>
   );
 };

@@ -45,8 +45,8 @@ const BookingPage = () => {
       await setDoc(doc(db, "bookings", year, month, day), {
         ...bookings_copy,
       });
-      const dataRef = doc(collection(db, "users", user.uid, "bookings"));
-      await setDoc(dataRef, {
+      const dbtime = year + "-" + month + "-" + day + "-" + selectedTime;
+      await setDoc(doc(db, "users", user.uid, "bookings", dbtime), {
         year: year,
         month: month,
         day: day,
