@@ -10,7 +10,7 @@ const FrontPage = () => {
     try {
       await logout();
     } catch (e) {
-      console.log(e.message);
+      window.alert("Ongelmia uloskirjautumisessa:\n\n" + error);
     }
   };
 

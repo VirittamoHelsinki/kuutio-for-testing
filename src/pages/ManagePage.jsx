@@ -34,7 +34,7 @@ const ManagePage = () => {
       });
       setBookings(documents);
     } catch (error) {
-      console.log(error);
+      window.alert("Ongelmia tietokannasta hakemisessa:\n\n" + error);
     }
   };
 
@@ -58,7 +58,7 @@ const ManagePage = () => {
       });
       setBookings(bookings.filter((booking) => booking.id !== selected.id));
     } catch (error) {
-      console.log(error);
+      window.alert("Ongelmia tietokannassa:\n\n" + error);
     }
   };
 
@@ -70,33 +70,40 @@ const ManagePage = () => {
     <div className="managepage-main">
       <div className="managepage-content">
         <div className="upcoming-content">
-          <div className="upcoming-title">
-            <label>Ajanvarauksesi</label>
-          </div>
-          <div className="upcoming-bookings">
-            {bookings.map((booking, index) => (
-              <div
-                className={`booking-content ${booking.id === selected.id ? " selected" : ""}`}
-                key={index}
-                onClick={() => {
-                  setSelected(booking);
-                  setShowSelected(true);
-                }}
-              >
-                <div className="date-title-content">
-                  <label>{weekDays[booking.weekday]}</label>
-                  <label>
-                    {booking.day}/{parseInt(booking.month) + 1}/{booking.year}
-                  </label>
-                </div>
-                <div className="time-topic-content">
-                  <div className="time-box">{booking.time}</div>
-                  <div className="topic-label">
-                    <label>{booking.topic}</label>
+          <div className="upcoming-title-bookings">
+            <div className="upcoming-title">
+              <label>Ajanvarauksesi</label>
+            </div>
+            <div className="upcoming-bookings">
+              {bookings.map((booking, index) => (
+                <div
+                  className={`booking-content ${booking.id === selected.id ? " selected" : ""}`}
+                  key={index}
+                  onClick={() => {
+                    setSelected(booking);
+                    setShowSelected(true);
+                  }}
+                >
+                  <div className="date-title-content">
+                    <label>{weekDays[booking.weekday]}</label>
+                    <label>
+                      {booking.day}/{parseInt(booking.month) + 1}/{booking.year}
+                    </label>
+                  </div>
+                  <div className="time-topic-content">
+                    <div className="time-box">{booking.time}</div>
+                    <div className="topic-label">
+                      <label>{booking.topic}</label>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div className="homepage-button-content">
+            <Link to="/" className="homepage-button">
+              Palaa etusivulle
+            </Link>
           </div>
         </div>
         <div className="selected-main">

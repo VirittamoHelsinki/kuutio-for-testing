@@ -45,8 +45,8 @@ const BookingPage = () => {
       await setDoc(doc(db, "bookings", year, month, day), {
         ...bookings_copy,
       });
-      const dataRef = doc(collection(db, "users", user.uid, "bookings"));
-      await setDoc(dataRef, {
+      const dbtime = year + "-" + month + "-" + day + "-" + selectedTime;
+      await setDoc(doc(db, "users", user.uid, "bookings", dbtime), {
         year: year,
         month: month,
         day: day,
@@ -58,7 +58,7 @@ const BookingPage = () => {
       setTopic("");
       setNewBooking(false);
     } catch (error) {
-      console.log(error);
+      window.alert("Ongelmia tietokantaan tallentamisessa:\n\n" + error);
     }
   };
 
@@ -79,7 +79,7 @@ const BookingPage = () => {
         setBookings(initTimes());
       }
     } catch (error) {
-      console.log(error);
+      window.alert("Ongelmia tietokannasta hakemisessa:\n\n" + error);
     }
   };
 
@@ -173,6 +173,9 @@ const BookingPage = () => {
             ) : (
               <button className="booking-button disabled">Varaa</button>
             )}
+            <Link to="/" className="homepage-button">
+              Palaa etusivulle
+            </Link>
           </div>
         </div>
       </div>

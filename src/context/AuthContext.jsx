@@ -1,28 +1,38 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from 'firebase/auth';
-import { auth } from '../firebase/firebase';
+import { createContext, useContext, useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 
 const UserContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
-  const createUser = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const createUser = async (email, password) => {
+    try {
+      const userdata = await createUserWithEmailAndPassword(auth, email, password);
+      signOut(auth);
+      await sendEmailVerification(userdata.user);
+      window.alert("Vahvistuspyyntö lähetetty antamaasi sähköpostiosoitteeseen");
+    } catch (error) {
+      window.alert("Käyttäjätilin luominen ei onnistunut:\n\n" + error);
+    }
   };
 
-  const signIn = (email, password) =>  {
-    return signInWithEmailAndPassword(auth, email, password);
-   }
+  const signIn = async (email, password) => {
+    try {
+      const userdata = await signInWithEmailAndPassword(auth, email, password);
+      if (!userdata.user.emailVerified) {
+        signOut(auth);
+        window.alert("Ole hyvä ja käy vahvistamassa rekisteröityminen antamassasi sähköpostiosoitteessa");
+      }
+    } catch (error) {
+      window.alert("Kirjautuminen ei onnistunut antamallasi sähköpostilla ja salasanalla:\n\n" + error);
+    }
+  };
 
   const logout = () => {
-      return signOut(auth)
-  }
+    return signOut(auth);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -33,11 +43,7 @@ export const AuthContextProvider = ({ children }) => {
     };
   }, []);
 
-  return (
-    <UserContext.Provider value={{ createUser, user, logout, signIn }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ createUser, user, logout, signIn }}>{children}</UserContext.Provider>;
 };
 
 export const UserAuth = () => {

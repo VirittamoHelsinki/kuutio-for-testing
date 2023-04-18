@@ -1,23 +1,18 @@
 import React from "react";
 import logo from "../images/virittämö.png";
 import { Link } from "react-router-dom";
-import { UserAuth } from '../context/AuthContext';
+import { UserAuth } from "../context/AuthContext";
 import "../styles/Header.scss";
 
 const Header = () => {
-
   const { user } = UserAuth();
 
   return (
     <div className="header-main">
-      <Link to="/">
-        <img src={logo} alt="logo" />
+      <Link to="/" className="header-label">
+        Virittämö
       </Link>
-      {user ? (
-        <h2>{user.email}</h2>
-      ) : (
-        <h2>Ei käyttäjää</h2>
-      )}
+      {user ? <label className="header-label">{user.email}</label> : <label className="header-label">Ei käyttäjää</label>}
     </div>
   );
 };
