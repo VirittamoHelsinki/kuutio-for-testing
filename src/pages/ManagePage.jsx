@@ -66,12 +66,6 @@ const ManagePage = () => {
     fetchBookings();
   }, []);
 
-  const getValueOf = (b) => {
-    const times = b.time.split(":");
-    const date = new Date(b.year, b.month, b.day, times[0], times[1]);
-    return date.valueOf();
-  };
-
   return (
     <div className="managepage-main">
       <div className="managepage-content">
@@ -80,31 +74,29 @@ const ManagePage = () => {
             <label>Ajanvarauksesi</label>
           </div>
           <div className="upcoming-bookings">
-            {bookings
-              .filter((booking) => getValueOf(booking) > new Date().valueOf())
-              .map((booking, index) => (
-                <div
-                  className={`booking-content ${booking.id === selected.id ? " selected" : ""}`}
-                  key={index}
-                  onClick={() => {
-                    setSelected(booking);
-                    setShowSelected(true);
-                  }}
-                >
-                  <div className="date-title-content">
-                    <label>{weekDays[booking.weekday]}</label>
-                    <label>
-                      {booking.day}/{parseInt(booking.month) + 1}/{booking.year}
-                    </label>
-                  </div>
-                  <div className="time-topic-content">
-                    <div className="time-box">{booking.time}</div>
-                    <div className="topic-label">
-                      <label>{booking.topic}</label>
-                    </div>
+            {bookings.map((booking, index) => (
+              <div
+                className={`booking-content ${booking.id === selected.id ? " selected" : ""}`}
+                key={index}
+                onClick={() => {
+                  setSelected(booking);
+                  setShowSelected(true);
+                }}
+              >
+                <div className="date-title-content">
+                  <label>{weekDays[booking.weekday]}</label>
+                  <label>
+                    {booking.day}/{parseInt(booking.month) + 1}/{booking.year}
+                  </label>
+                </div>
+                <div className="time-topic-content">
+                  <div className="time-box">{booking.time}</div>
+                  <div className="topic-label">
+                    <label>{booking.topic}</label>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         </div>
         <div className="selected-main">
