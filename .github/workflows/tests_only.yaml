@@ -29,10 +29,10 @@ jobs:
         token: ${{ github.token }}
         title: Job failed:${{ github.repository }} - ${{ github.workflow }}
         body: |
-          The job failed in the ${{ github.workflow }} workflow.
-
-          Job log:
-
-          ```
-          ${{ github.event.workflow_run.logs_url }}
-          ```
+          ### Context
+          [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }})
+          Workflow name - `${{ github.workflow }}`
+          Job -           `${{ github.job }}`
+          status -        `${{ job.status }}`
+        
