@@ -29,9 +29,8 @@ jobs:
         token: ${{ github.token }}
         title: Job failed:${{ github.repository }} - ${{ github.workflow }}
         body: |
-          ### Context
+          ### Testin aikana tapahtui virhe, katso lisätietoja linkistä.
           [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }})
           Workflow name - `${{ github.workflow }}`
           Job -           `${{ github.job }}`
           status -        `${{ job.status }}`
