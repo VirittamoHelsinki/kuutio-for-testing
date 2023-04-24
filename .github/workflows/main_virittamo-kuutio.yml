@@ -3,11 +3,7 @@
 
 name: Build and deploy container app to Azure Web App - virittamo-kuutio
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: workflow_dispatch:
 
 jobs:
   build:
@@ -26,12 +22,9 @@ jobs:
         username: ${{ secrets.AzureAppService_ContainerUsername_2679e7164bd345cfaa11c7b652377425 }}
         password: ${{ secrets.AzureAppService_ContainerPassword_dd4df48c853949a2a649800922f47885 }}
 
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: virittamo.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_2679e7164bd345cfaa11c7b652377425 }}/kuutioajanvaraus:${{ github.sha }}
-        file: ./Dockerfile
+    - run: |
+        docker build . -t virittamo.azurecr.io/virittamokuutio:${{ github.sha }}
+        docker push virittamo.azurecr.io/virittamokuutio:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,4 +41,4 @@ jobs:
         app-name: 'virittamo-kuutio'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_3f4e534bd8ac421fa2ecad22e2bb09f2 }}
-        images: 'virittamo.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_2679e7164bd345cfaa11c7b652377425 }}/kuutioajanvaraus:${{ github.sha }}'
+        images: 'virittamo.azurecr.io/virittamokuutio:${{ github.sha }}'
