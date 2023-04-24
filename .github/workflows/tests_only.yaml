@@ -22,3 +22,16 @@ jobs:
       run: npm ci
     - name: Run Tests
       run: npm test
+    - name: Create issue on failure
+      if: ${{ job.status != 'success' }}
+      uses: actions/create-issue@v1
+      with:
+        title: Job failed: ${{ github.repository }} - ${{ github.workflow }}
+        body: |
+          The job failed in the ${{ github.workflow }} workflow.
+
+          Job log:
+
+          ```
+          ${{ github.event.workflow_run.logs_url }}
+          ```
