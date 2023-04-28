@@ -4,7 +4,7 @@ import { UserAuth } from "../context/AuthContext";
 import "../styles/FrontPage.scss";
 
 const FrontPage = () => {
-  const { logout } = UserAuth();
+  const { logout, admin } = UserAuth();
 
   const onLogout = async () => {
     try {
@@ -21,8 +21,13 @@ const FrontPage = () => {
           Varaa uusi aika
         </Link>
         <Link to="manage-booking" className="frontpage-button">
-          Hallinnoi ajanvarauksia
+          Hallinnoi omia ajanvarauksia
         </Link>
+        {admin && (
+          <Link to="user-management" className="frontpage-button">
+            Hallinnoi muiden ajanvarauksia
+          </Link>
+        )}
         <button className="frontpage-button" onClick={onLogout}>
           Kirjaudu ulos
         </button>
