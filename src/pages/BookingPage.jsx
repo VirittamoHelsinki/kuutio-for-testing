@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { doc, setDoc, getDoc, collection } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { UserAuth } from "../context/AuthContext";
+import { fullName } from "../features/functions";
 import Calendar from "../components/Calendar";
 import "../styles/BookingPage.scss";
 
@@ -152,7 +153,7 @@ const BookingPage = () => {
                           </div>
                           <div className="detail-content">
                             <div className="name-label">
-                              <label>{booking.data.email}</label>
+                              <label>{fullName(booking.data.email)}</label>
                             </div>
                             <div className="topic-label">
                               <label>{booking.data.topic}</label>
@@ -211,7 +212,7 @@ const BookingPage = () => {
                 <label>Nimi:</label>
               </div>
               <div className="detail-value">
-                <label>{user.email}</label>
+                <label>{fullName(user.email)}</label>
               </div>
             </div>
           </div>
