@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
+import { months, weekDays } from "../features/arrays";
 import "../styles/Calendar.scss";
-
-const months = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
-const weekDays = ["ma", "ti", "ke", "to", "pe", "la", "su"];
 
 const Calendar = ({ date, setDate, setSelectedDate, highlightDays = [] }) => {
   const [days, setDays] = useState([]);
@@ -29,7 +27,7 @@ const Calendar = ({ date, setDate, setSelectedDate, highlightDays = [] }) => {
     }
   }, [selectedDay]);
 
-  function changeMonth(month) {
+  const changeMonth = (month) => {
     let year = currentYear;
     if (month > 11) {
       month = 0;
@@ -40,41 +38,41 @@ const Calendar = ({ date, setDate, setSelectedDate, highlightDays = [] }) => {
       year--;
     }
     setDate(new Date(year, month, date.getDate()));
-  }
+  };
 
-  function getFirstDayOfMonth(year, month) {
+  const getFirstDayOfMonth = (year, month) => {
     return new Date(year, month, 1).getDay();
-  }
+  };
 
-  function getDaysInMonthAsArray(year, month) {
+  const getDaysInMonthAsArray = (year, month) => {
     const lastDay = new Date(year, month + 1, 0).getDate();
     return new Array(lastDay).fill(0).map((_, i) => new Date(year, month, i + 1));
-  }
+  };
 
-  function getTrueDay(date) {
+  const getTrueDay = (date) => {
     let day = date.getDay();
     if (day === 0) return 6;
     return day - 1;
-  }
+  };
 
-  function getLastDaysOfPreviousMonth(year, month, howManyDays) {
+  const getLastDaysOfPreviousMonth = (year, month, howManyDays) => {
     const days = [];
     const lastDayOfPreviousMonth = new Date(year, month + 1, 0).getDate();
     for (let i = lastDayOfPreviousMonth - howManyDays; i < lastDayOfPreviousMonth; i++) {
       days.push(new Date(year, month, i + 1));
     }
     return days;
-  }
+  };
 
-  function getFirstDaysOfNextMonth(year, month, howManyDays) {
+  const getFirstDaysOfNextMonth = (year, month, howManyDays) => {
     const days = [];
     for (let i = 1; i <= howManyDays; i++) {
       days.push(new Date(year, month, i));
     }
     return days;
-  }
+  };
 
-  function getDaysToDisplay(year, month) {
+  const getDaysToDisplay = (year, month) => {
     // Get the first day of the month
     const firstDayOfMonth = getTrueDay(new Date(year, month, 1));
 
@@ -96,7 +94,7 @@ const Calendar = ({ date, setDate, setSelectedDate, highlightDays = [] }) => {
     // Merge the last row with the bulk of the days
     days = [...days, ...firstDaysOfNextMonth];
     return days;
-  }
+  };
 
   return (
     <div className="minified-calendar">
