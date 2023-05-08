@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { doc, setDoc, getDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { UserAuth } from "../context/AuthContext";
+import Calendar from "../components/Calendar";
+import { weekDaysLong } from "../features/arrays";
 import "../styles/ManagePage.scss";
-
-const weekDays = ["Sunnuntai", "Maanantai", "Tiistai", "Keskiviikko", "Torstai", "Perjantai", "Lauantai"];
 
 const init = {
   year: "",
@@ -18,7 +18,10 @@ const init = {
 
 const ManagePage = () => {
   const [bookings, setBookings] = useState([]);
+  const [allBookings, setallBookings] = useState([]);
   const [selected, setSelected] = useState(init);
+  const [date, setDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const [showSelected, setShowSelected] = useState(false);
   const [showConfirmWindow, setShowConfirmWindow] = useState(false);
   const [showReturnWindow, setShowReturnWindow] = useState(false);
@@ -32,6 +35,7 @@ const ManagePage = () => {
       querySnapshot.forEach((doc) => {
         documents.push({ ...doc.data(), id: doc.id });
       });
+      setallBookings(documents);
       setBookings(documents);
     } catch (error) {
       window.alert("Ongelmia tietokannasta hakemisessa:\n\n" + error);
@@ -66,6 +70,15 @@ const ManagePage = () => {
     fetchBookings();
   }, []);
 
+  useEffect(() => {
+    if (selectedDate) {
+      const year = selectedDate.getFullYear().toString();
+      const month = selectedDate.getMonth().toString();
+      const day = selectedDate.getDate().toString();
+      setBookings(allBookings.filter((booking) => booking.year === year && booking.month === month && booking.day === day));
+    }
+  }, [selectedDate]);
+
   const getValueOf = (b) => {
     const times = b.time.split(":");
     const date = new Date(b.year, b.month, b.day, times[0], times[1]);
@@ -93,7 +106,7 @@ const ManagePage = () => {
                     }}
                   >
                     <div className="date-title-content">
-                      <label>{weekDays[booking.weekday]}</label>
+                      <label>{weekDaysLong[booking.weekday]}</label>
                       <label>
                         {booking.day}/{parseInt(booking.month) + 1}/{booking.year}
                       </label>
@@ -115,6 +128,7 @@ const ManagePage = () => {
           </div>
         </div>
         <div className="selected-main">
+          <Calendar date={date} setDate={setDate} setSelectedDate={setSelectedDate} />
           {showSelected && (
             <div className="selected-content">
               <div className="selected-details">

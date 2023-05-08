@@ -141,8 +141,8 @@
           justify-content: center;
           width: 389px;
           height: 60px;
-          background: #f5a3c7;
-          color: black;
+          background: black;
+          color: white;
           font-family: "Inter", sans-serif;
           font-style: normal;
           font-weight: 700;
@@ -155,17 +155,19 @@
 
     .selected-main {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
       background: white;
       width: 948px;
-      height: 60vh;
+      padding-top: 30px;
+      gap: 30px;
 
       .selected-content {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 70%;
+        width: 83%;
         padding: 35px;
         background: #e8f3fc;
 
