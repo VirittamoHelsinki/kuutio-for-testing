@@ -3,23 +3,9 @@ import { Link } from "react-router-dom";
 import { doc, setDoc, getDoc, collection } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { UserAuth } from "../context/AuthContext";
-import { fullName } from "../features/functions";
+import { fullName, initTimes } from "../features/functions";
 import Calendar from "../components/Calendar";
 import "../styles/BookingPage.scss";
-
-const initTimes = () => {
-  let times = [{ time: "07:30", data: null }];
-  for (let i = 8; i < 18; i++) {
-    if (i < 10) {
-      times.push({ time: "0" + i + ":00", data: null });
-      times.push({ time: "0" + i + ":30", data: null });
-    } else {
-      times.push({ time: i + ":00", data: null });
-      times.push({ time: i + ":30", data: null });
-    }
-  }
-  return times;
-};
 
 const BookingPage = () => {
   const [date, setDate] = useState(new Date());

@@ -1,3 +1,17 @@
+export const initTimes = () => {
+  let times = [{ time: "07:30", data: null }];
+  for (let i = 8; i < 18; i++) {
+    if (i < 10) {
+      times.push({ time: "0" + i + ":00", data: null });
+      times.push({ time: "0" + i + ":30", data: null });
+    } else {
+      times.push({ time: i + ":00", data: null });
+      times.push({ time: i + ":30", data: null });
+    }
+  }
+  return times;
+};
+
 export const fullName = (email) => {
   if (!email) return;
   const _name = email.split("@")[0];
