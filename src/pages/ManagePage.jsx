@@ -19,6 +19,7 @@ const init = {
 const ManagePage = () => {
   const [bookings, setBookings] = useState([]);
   const [allBookings, setallBookings] = useState([]);
+  const [highlighted, setHighlighted] = useState([]);
   const [selected, setSelected] = useState(init);
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
@@ -79,6 +80,16 @@ const ManagePage = () => {
     }
   }, [selectedDate]);
 
+  useEffect(() => {
+    if (allBookings.length > 0) {
+      const highlightDays = [];
+      allBookings.forEach((booking) => {
+        highlightDays.push(new Date(booking.year, booking.month, booking.day).getTime());
+      });
+      setHighlighted(highlightDays);
+    }
+  }, [allBookings]);
+
   const getValueOf = (b) => {
     const times = b.time.split(":");
     const date = new Date(b.year, b.month, b.day, times[0], times[1]);
@@ -128,7 +139,7 @@ const ManagePage = () => {
           </div>
         </div>
         <div className="selected-main">
-          <Calendar date={date} setDate={setDate} setSelectedDate={setSelectedDate} />
+          <Calendar date={date} setDate={setDate} setSelectedDate={setSelectedDate} highlightDays={highlighted} />
           {showSelected && (
             <div className="selected-content">
               <div className="selected-details">

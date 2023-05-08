@@ -122,7 +122,7 @@ const Calendar = ({ date, setDate, setSelectedDate, highlightDays = [] }) => {
         <div className="calendar-days">
           {days.map((day, index) => {
             const isCurrentMonth = day.getMonth() === currentMonth;
-            const highlight = isCurrentMonth && highlightDays[day.getDate() - 1]?.highlight;
+            const highlight = new Date().getTime() < day.getTime() && highlightDays.includes(day.getTime());
             return (
               <div
                 key={`day-${index}`}
