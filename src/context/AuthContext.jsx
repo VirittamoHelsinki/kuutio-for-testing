@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase/firebase";
 
 const UserContext = createContext();
 
@@ -8,9 +9,15 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [admin, setAdmin] = useState(false);
 
-  const createUser = async (email, password) => {
+  const createUser = async (email, password, group) => {
     try {
       const userdata = await createUserWithEmailAndPassword(auth, email, password);
+      if (group) {
+        await setDoc(doc(db, "users", userdata.user.uid), {
+          email: email,
+          group: group,
+        });
+      }
       signOut(auth);
       await sendEmailVerification(userdata.user);
       window.alert("Vahvistuspyyntö lähetetty antamaasi sähköpostiosoitteeseen");

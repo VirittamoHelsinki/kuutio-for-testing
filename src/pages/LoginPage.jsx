@@ -7,13 +7,18 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [register, setRegister] = useState(false);
+  const [group, setGroup] = useState(null);
 
   const { createUser, signIn } = UserAuth();
 
   const onSignup = (e) => {
     e.preventDefault();
     if ((email.includes("@hel.fi") || email.includes("@edu.hel.fi")) && password.length >= 8 && password === confirmPassword) {
-      createUser(email, password);
+      if (email.includes("@edu.hel.fi") && !group) {
+        window.alert("Unohdit valita ryhmän");
+        return;
+      }
+      createUser(email, password, group);
       setEmail("");
       setPassword("");
       setConfirmPassword("");
@@ -40,6 +45,14 @@ const LoginPage = () => {
             </div>
             <div className="input-field">
               <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <select id="group-select" defaultValue={"DEFAULT"} disabled={!email.includes("@edu.hel.fi")} onChange={(e) => setGroup(e.target.value)}>
+                <option value="DEFAULT" hidden disabled>
+                  -- ryhmä --
+                </option>
+                <option value="ICT">ICT</option>
+                <option value="Media">Media</option>
+                <option value="Softa">Softa</option>
+              </select>
             </div>
             <div className="input-field">
               <input type="password" placeholder="Salasana" value={password} onChange={(e) => setPassword(e.target.value)} />
