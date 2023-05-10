@@ -113,7 +113,7 @@ const AdminManagePage = () => {
             <div className="upcoming-bookings">
               {bookings
                 .filter((booking) => getValueOf(booking) > new Date().valueOf())
-                .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+                .sort((a, b) => (a.bookingId < b.bookingId ? -1 : a.bookingId > b.bookingId ? 1 : 0))
                 .map((booking, index) => {
                   return (
                     <div
