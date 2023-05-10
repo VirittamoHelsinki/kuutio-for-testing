@@ -21,3 +21,9 @@ export const fullName = (email) => {
   const lastname = names[names.length - 1].charAt(0).toUpperCase() + names[names.length - 1].slice(1);
   return firstname + " " + lastname;
 };
+
+export const getValueOf = (b) => {
+  const times = b.time.split(":");
+  const date = new Date(b.year, b.month, b.day, times[0], times[1]);
+  return date.valueOf();
+};
