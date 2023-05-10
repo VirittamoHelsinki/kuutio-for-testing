@@ -42,7 +42,7 @@ const AdminManagePage = () => {
       users.forEach(async (user) => {
         const docSnapshot = await getDocs(collection(db, "users", user.id, "bookings"));
         docSnapshot.forEach((doc) => {
-          setAllBookings((oldBookings) => [...oldBookings, { ...doc.data(), email: user.email }]);
+          setAllBookings((oldBookings) => [...oldBookings, { ...doc.data(), email: user.email, id: user.id, bookingId: doc.id }]);
           setBookings((oldBookings) => [...oldBookings, { ...doc.data(), email: user.email, id: user.id, bookingId: doc.id }]);
         });
       });
@@ -101,10 +101,6 @@ const AdminManagePage = () => {
       setHighlighted(highlightDays);
     }
   }, [allBookings]);
-
-  useEffect(() => {
-    console.log(bookings);
-  }, [bookings]);
 
   const getValueOf = (b) => {
     const times = b.time.split(":");
