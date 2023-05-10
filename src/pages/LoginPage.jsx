@@ -22,6 +22,7 @@ const LoginPage = () => {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      setGroup(null);
     }
   };
 

@@ -68,8 +68,11 @@ const ManagePage = () => {
   };
 
   useEffect(() => {
+    if (!user.uid) {
+      return;
+    }
     fetchBookings();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (selectedDate) {
