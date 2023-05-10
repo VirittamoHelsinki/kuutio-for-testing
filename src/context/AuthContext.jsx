@@ -43,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser?.email.includes("mikko")) {
+      if (currentUser?.email.includes("@hel.fi")) {
         setAdmin(true);
       }
       setUser(currentUser);
