@@ -6,7 +6,7 @@ import FrontPage from "./pages/FrontPage";
 import LoginPage from "./pages/LoginPage";
 import BookingPage from "./pages/BookingPage";
 import ManagePage from "./pages/ManagePage";
-import UserManagementPage from "./pages/UserManagementPage";
+import AdminManagePage from "./pages/AdminManagePage";
 import UserRoute from "./routes/UserRoute";
 import GuestRoute from "./routes/GuestRoute";
 import AdminRoute from "./routes/AdminRoute";
@@ -50,10 +50,10 @@ function App() {
             }
           />
           <Route
-            path="user-management"
+            path="all-bookings"
             element={
               <AdminRoute>
-                <UserManagementPage />
+                <AdminManagePage />
               </AdminRoute>
             }
           />

@@ -12,12 +12,10 @@ export const AuthContextProvider = ({ children }) => {
   const createUser = async (email, password, group) => {
     try {
       const userdata = await createUserWithEmailAndPassword(auth, email, password);
-      if (group) {
-        await setDoc(doc(db, "users", userdata.user.uid), {
-          email: email,
-          group: group,
-        });
-      }
+      await setDoc(doc(db, "users", userdata.user.uid), {
+        email: email,
+        group: group,
+      });
       signOut(auth);
       await sendEmailVerification(userdata.user);
       window.alert("Vahvistuspyyntö lähetetty antamaasi sähköpostiosoitteeseen");
@@ -45,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser?.email.includes("@hel.fi")) {
+      if (currentUser?.email.includes("mikko")) {
         setAdmin(true);
       }
       setUser(currentUser);

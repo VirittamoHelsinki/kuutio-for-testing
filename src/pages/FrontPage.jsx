@@ -24,7 +24,7 @@ const FrontPage = () => {
           Hallinnoi omia ajanvarauksia
         </Link>
         {admin && (
-          <Link to="user-management" className="frontpage-button">
+          <Link to="all-bookings" className="frontpage-button">
             Hallinnoi muiden ajanvarauksia
           </Link>
         )}
