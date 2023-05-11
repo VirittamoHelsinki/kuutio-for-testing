@@ -4,6 +4,7 @@ import { doc, setDoc, getDoc, getDocs, collection, deleteDoc } from "firebase/fi
 import { db } from "../firebase/firebase";
 import { UserAuth } from "../context/AuthContext";
 import Calendar from "../components/Calendar";
+import { getValueOf } from "../features/functions";
 import { weekDaysLong } from "../features/arrays";
 import "../styles/ManagePage.scss";
 
@@ -92,12 +93,6 @@ const ManagePage = () => {
       setHighlighted(highlightDays);
     }
   }, [allBookings]);
-
-  const getValueOf = (b) => {
-    const times = b.time.split(":");
-    const date = new Date(b.year, b.month, b.day, times[0], times[1]);
-    return date.valueOf();
-  };
 
   return (
     <div className="managepage-main">

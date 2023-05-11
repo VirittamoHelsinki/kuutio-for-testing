@@ -191,7 +191,9 @@ const AdminManagePage = () => {
                 </div>
               </div>
               <div className="remove-button-content">
-                <button className="remove-button">Poista varaus</button>
+                <button className="remove-button" onClick={() => setShowConfirmWindow(true)}>
+                  Poista varaus
+                </button>
               </div>
             </div>
           )}
