@@ -42,8 +42,8 @@ const AdminManagePage = () => {
       users.forEach(async (user) => {
         const docSnapshot = await getDocs(collection(db, "users", user.id, "bookings"));
         docSnapshot.forEach((doc) => {
-          setAllBookings((oldBookings) => [...oldBookings, { ...doc.data(), email: user.email, id: user.id, bookingId: doc.id }]);
-          setBookings((oldBookings) => [...oldBookings, { ...doc.data(), email: user.email, id: user.id, bookingId: doc.id }]);
+          setAllBookings((oldBookings) => [...oldBookings, { ...doc.data(), email: user.email, uid: user.id, bookingId: doc.id }]);
+          setBookings((oldBookings) => [...oldBookings, { ...doc.data(), email: user.email, uid: user.id, bookingId: doc.id }]);
         });
       });
     } catch (error) {
@@ -54,7 +54,7 @@ const AdminManagePage = () => {
   const deleteBooking = async () => {
     try {
       /* delete booking from the users folder */
-      await deleteDoc(doc(db, "users", user.uid, "bookings", selected.id));
+      await deleteDoc(doc(db, "users", selected.uid, "bookings", selected.bookingId));
 
       /* get bookings from specific day, find the right index, change the data to null and send it back to db */
       const docSnap = await getDoc(doc(db, "bookings", selected.year, selected.month, selected.day));
@@ -69,7 +69,7 @@ const AdminManagePage = () => {
       await setDoc(doc(db, "bookings", selected.year, selected.month, selected.day), {
         ...documents,
       });
-      setBookings(bookings.filter((booking) => booking.id !== selected.id));
+      setBookings(bookings.filter((booking) => booking.bookingId !== selected.bookingId));
     } catch (error) {
       window.alert("Ongelmia tietokannassa:\n\n" + error);
     }
