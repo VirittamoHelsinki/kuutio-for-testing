@@ -19,7 +19,7 @@ const init = {
 
 const ManagePage = () => {
   const [bookings, setBookings] = useState([]);
-  const [allBookings, setallBookings] = useState([]);
+  const [allBookings, setAllBookings] = useState([]);
   const [highlighted, setHighlighted] = useState([]);
   const [selected, setSelected] = useState(init);
   const [date, setDate] = useState(new Date());
@@ -32,13 +32,13 @@ const ManagePage = () => {
 
   const fetchBookings = async () => {
     try {
-      const documents = [];
+      setAllBookings([]);
+      setBookings([]);
       const querySnapshot = await getDocs(collection(db, "users", user.uid, "bookings"));
       querySnapshot.forEach((doc) => {
-        documents.push({ ...doc.data(), id: doc.id });
+        setAllBookings((oldBookings) => [...oldBookings, { ...doc.data(), id: doc.id }]);
+        setBookings((oldBookings) => [...oldBookings, { ...doc.data(), id: doc.id }]);
       });
-      setallBookings(documents);
-      setBookings(documents);
     } catch (error) {
       window.alert("Ongelmia tietokannasta hakemisessa:\n\n" + error);
     }
