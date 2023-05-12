@@ -63,6 +63,13 @@ const ManagePage = () => {
         ...documents,
       });
       setBookings(bookings.filter((booking) => booking.id !== selected.id));
+      await setDoc(
+        doc(db, "logs", new Date().toJSON().slice(0, 10)),
+        {
+          [new Date().toLocaleTimeString("en-GB")]: user.uid + " deleted booking " + selected.id,
+        },
+        { merge: true }
+      );
     } catch (error) {
       window.alert("Ongelmia tietokannassa:\n\n" + error);
     }
