@@ -8,20 +8,11 @@ import { getValueOf } from "../features/functions";
 import { weekDaysLong } from "../features/arrays";
 import "../styles/ManagePage.scss";
 
-const init = {
-  year: "",
-  month: "0",
-  day: "",
-  weekday: "",
-  time: "",
-  topic: "",
-};
-
 const ManagePage = () => {
   const [bookings, setBookings] = useState([]);
   const [allBookings, setAllBookings] = useState([]);
   const [highlighted, setHighlighted] = useState([]);
-  const [selected, setSelected] = useState(init);
+  const [selected, setSelected] = useState({});
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [showSelected, setShowSelected] = useState(false);
