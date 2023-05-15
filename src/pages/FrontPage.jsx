@@ -20,12 +20,14 @@ const FrontPage = () => {
         <Link to="booking" className="frontpage-button">
           Varaa uusi aika
         </Link>
-        <Link to="manage-booking" className="frontpage-button">
-          Hallinnoi omia ajanvarauksia
-        </Link>
+        {!admin && (
+          <Link to="manage-booking" className="frontpage-button">
+            Hallinnoi omia ajanvarauksia
+          </Link>
+        )}
         {admin && (
           <Link to="all-bookings" className="frontpage-button">
-            Hallinnoi muiden ajanvarauksia
+            Hallinnoi ajanvarauksia
           </Link>
         )}
         <button className="frontpage-button" onClick={onLogout}>
