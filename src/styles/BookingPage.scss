@@ -398,3 +398,47 @@
     }
   }
 }
+
+@media screen and (max-width: 1440px) {
+  .bookingpage-main {
+    justify-content: center;
+    align-items: center;
+
+    .bookingpage-content {
+      flex-direction: column !important;
+      align-items: center;
+
+      .calendar-times-content {
+        justify-content: flex-start !important;
+        align-items: center !important;
+        height: 830px !important;
+
+        .times-content {
+          width: 830px;
+
+          .times-row {
+            justify-content: space-between;
+          }
+        }
+      }
+
+      .booking-content {
+        width: 830px !important;
+        height: 600px !important;
+        justify-content: center;
+        align-items: center;
+
+        .booking-data-content {
+          height: 400px !important;
+
+          .booking-data {
+            align-items: center;
+            .booking-column {
+              width: 45%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,6 @@
 .minified-calendar {
   width: 770px;
   height: 425px;
-  position: relative;
-  left: 0;
-  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -126,7 +123,7 @@
         }
 
         &.disabled {
-          opacity: 0.5;
+          color: lightgray;
         }
       }
     }
