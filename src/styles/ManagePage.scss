@@ -300,3 +300,19 @@
     }
   }
 }
+
+@media screen and (max-width: 1440px) {
+  .managepage-main {
+    justify-content: center;
+    align-items: center;
+
+    .managepage-content {
+      flex-direction: column !important;
+      align-items: center;
+
+      .upcoming-content {
+        width: 830px !important;
+      }
+    }
+  }
+}
