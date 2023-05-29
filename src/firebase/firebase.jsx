@@ -3,12 +3,13 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB6LYpk_DFZwixdmW2AAJ-AErsJ7gnRyCk",
-  authDomain: "kuutio-ajanvaraus.firebaseapp.com",
-  projectId: "kuutio-ajanvaraus",
-  storageBucket: "kuutio-ajanvaraus.appspot.com",
-  messagingSenderId: "676652676649",
-  appId: "1:676652676649:web:4c4a7483ff4850274c8e38",
+  apiKey: "AIzaSyB074b0hxyYW9RaxpobiN565vhvCK07eJs",
+  authDomain: "kuutio-app-official.firebaseapp.com",
+  projectId: "kuutio-app-official",
+  storageBucket: "kuutio-app-official.appspot.com",
+  messagingSenderId: "233676564782",
+  appId: "1:233676564782:web:0a510854e763a13b6a72bf",
+  measurementId: "G-2F9DPHVFS9",
 };
 
 export const app = initializeApp(firebaseConfig);
