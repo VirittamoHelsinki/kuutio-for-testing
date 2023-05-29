@@ -37,15 +37,15 @@ export const AuthContextProvider = ({ children }) => {
       if (!userdata.user.emailVerified) {
         signOut(auth);
         window.alert("Ole hyvä ja käy vahvistamassa rekisteröityminen antamassasi sähköpostiosoitteessa");
-      } else {
-        await setDoc(
-          doc(db, "logs", new Date().toJSON().slice(0, 10)),
-          {
-            [new Date().toLocaleTimeString("en-GB")]: userdata.user.uid + " signed in",
-          },
-          { merge: true }
-        );
+        return;
       }
+      await setDoc(
+        doc(db, "logs", new Date().toJSON().slice(0, 10)),
+        {
+          [new Date().toLocaleTimeString("en-GB")]: userdata.user.uid + " signed in",
+        },
+        { merge: true }
+      );
     } catch (error) {
       window.alert("Kirjautuminen ei onnistunut antamallasi sähköpostilla ja salasanalla:\n\n" + error);
     }
